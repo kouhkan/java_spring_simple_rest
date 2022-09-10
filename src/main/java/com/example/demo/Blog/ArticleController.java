@@ -1,9 +1,7 @@
 package com.example.demo.Blog;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +16,26 @@ public class ArticleController {
     }
 
     @GetMapping
-    public List<Article> getArticles () {
+    public List<Article> getArticles() {
         return articleService.getArticles();
+    }
+
+    @PostMapping
+    public void createArticle(@RequestBody Article article) {
+        articleService.createArticle(article);
+    }
+
+    @DeleteMapping(path = "{articleId}")
+    public void deleteArticle(@PathVariable("articleId") Long articleId) {
+        articleService.deleteArticle(articleId);
+    }
+
+    @PutMapping(path = "{articleId}")
+    public void updateArticle(
+            @PathVariable("articleId") Long articleId,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content) {
+
+        articleService.updateArticle(articleId, title, content);
     }
 }
